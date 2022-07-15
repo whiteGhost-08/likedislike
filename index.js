@@ -35,40 +35,42 @@ app.post('/', wrapAsync(async (req, res, next) => {
         if (Id !== ID) {
             return next(new ExpressError(401, "Not authorised"));
         }
-        const probData = []
+        let probData = []
         const vis = []
         if (bringProblems.length > 100) {
             return next(new ExpressError(406, "Incorrect data received"));
         }
         // check validity 
-        for (let problem of bringProblems) {
-            if (typeof problem !== 'string' || problem.length > 6) {
-                return next(new ExpressError(406, "Incorrect data received"));
-            }
-        }
+        // for (let problem of bringProblems) {
+        //     if (typeof problem !== 'string' || problem.length > 6) {
+        //         return next(new ExpressError(406, "Incorrect data received"));
+        //     }
+        // }
         // find the problems
-        for (let problem of bringProblems) {
-            const foundP = await Problem.findById(problem);
-            if (foundP) {
-                probData.push(foundP);
-            }
-        }
+
+        // for (let problem of bringProblems) {
+        //     const foundP = await Problem.findById(problem);
+        //     if (foundP) {
+        //         probData.push(foundP);
+        //     }
+        // }
+        probData = await Problem.find({_id: {$in : bringProblems}})
         // find the problems user reviewed
         if (loginStatus === "Logout" || loginStatus === 'Выйти') {
 
             if (typeof userHandle !== 'string' || userHandle.length > 24 || userHandle.length < 3) {
                 return next(new ExpressError(406, "Incorrect data recived"));
             }
-            for (let problem of bringProblems) {
-                const liked = await User.findById(problem + "L" + userHandle)
-                const disliked = await User.findById(problem + "D" + userHandle)
-                if (liked) {
-                    vis.push([problem, "L"]);
-                } 
-                else if (disliked) {
-                    vis.push([problem, "D"]);
-                }
-            }
+            // for (let problem of bringProblems) {
+            //     const liked = await User.findById(problem + "L" + userHandle)
+            //     const disliked = await User.findById(problem + "D" + userHandle)
+            //     if (liked) {
+            //         vis.push([problem, "L"]);
+            //     } 
+            //     else if (disliked) {
+            //         vis.push([problem, "D"]);
+            //     }
+            // }
         }
         const dataToSend = {probData, vis};
         res.send(dataToSend);
