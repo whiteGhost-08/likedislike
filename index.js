@@ -13,14 +13,13 @@ const Problem = require("./models/problem")
 const port = 3000;
 const ID = process.env.ID;
 const corsUrl = process.env.CORURL;
-// const dbUrl = process.env.DB_URL;
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/server';
 app.use(cors({
     origin: corsUrl
 }));
 
-// 'mongodb://localhost:27017/server'
 app.use(express.json());
-mongoose.connect('mongodb://localhost:27017/server', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("mongo connection open")
     })
@@ -130,5 +129,5 @@ app.use((err, req, res, next) => {
 })
 
 app.listen(port, (() => {
-    console.log("app is listening to port 3000")
+    console.log(`app is listening to port ${port}`)
 }))
