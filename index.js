@@ -12,11 +12,9 @@ const User = require("./models/user");
 const Problem = require("./models/problem")
 
 const ID = process.env.ID;
-const corsUrl = process.env.CORURL;
-console.log(corsUrl);
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/server';
 app.use(cors({
-    origin: corsUrl
+    origin: "https://codeforces.com"
 }));
 
 app.use(express.json());
