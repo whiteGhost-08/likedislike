@@ -24,9 +24,8 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log("oh no!! ", error);
     })
 
-console.log(dbUrl);
 app.use(cors({
-    origin: "https://codeforces.com"
+    origin: process.env.CORURL
 }));
 
 app.post('/', wrapAsync(async (req, res, next) => {
