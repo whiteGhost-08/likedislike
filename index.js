@@ -84,7 +84,7 @@ app.patch('/', wrapAsync(async (req, res, next) => {
     if ((value !== "L" && value !== "D") || userHandle.length < 3 || userHandle.length > 24 || id.length > 6) {
         return next(new ExpressError(406, "Incorrect data recieved"))
     }
-        try {
+    try {
         let currProb = await Problem.findById(id);
         if (!currProb) {
             currProb = new Problem({
