@@ -45,12 +45,14 @@ app.post('/', wrapAsync(async (req, res, next) => {
                 return next(new ExpressError(406, "Incorrect data received"));
             }
         }
+        // find the problems
         for (let problem of bringProblems) {
             const foundP = await Problem.findById(problem);
             if (foundP) {
                 probData.push(foundP);
             }
         }
+        // find the problems user reviewed
         if (loginStatus === "Logout" || loginStatus === 'Выйти') {
 
             if (typeof userHandle !== 'string' || userHandle.length > 24 || userHandle.length < 3) {
@@ -85,6 +87,7 @@ app.patch('/', wrapAsync(async (req, res, next) => {
         return next(new ExpressError(406, "Incorrect data recieved"))
     }
     try {
+        // save the current porblem if not present 
         let currProb = await Problem.findById(id);
         if (!currProb) {
             currProb = new Problem({
