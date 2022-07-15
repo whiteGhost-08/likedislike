@@ -10,7 +10,7 @@ const ExpressError = require("./utils/ExpressError")
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const Problem = require("./models/problem")
-const port = 3000;
+
 const ID = process.env.ID;
 const corsUrl = process.env.CORURL;
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/server';
@@ -127,7 +127,7 @@ app.use((err, req, res, next) => {
     const { statusCode = 500, message = "Something went wrong" } = err;
     res.status(statusCode).send(message);
 })
-
+const port = process.env.PORT || 3000;
 app.listen(port, (() => {
     console.log(`app is listening to port ${port}`)
 }))
