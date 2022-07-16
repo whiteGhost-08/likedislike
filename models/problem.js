@@ -4,6 +4,8 @@ const problemSchema = new mongoose.Schema({
         _id: String,
         likes: Number,
         dislikes: Number
+}, {
+    versionKey : false
 });
 
 problemSchema.methods.increaseValue = async function(value) {
