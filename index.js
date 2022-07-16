@@ -35,17 +35,6 @@ app.post('/', wrapAsync(async (req, res, next) => {
             return next(new ExpressError(401, "Not authorised"));
         }
         const vis = []
-        if (bringProblems.length > 100) {
-            return next(new ExpressError(406, "Incorrect data received"));
-        }
-        // check validity 
-        for (let problem of bringProblems) {
-            if (typeof problem !== 'string' || problem.length > 6) {
-                return next(new ExpressError(406, "Incorrect data received"));
-            }
-        }
-        // find the problems
-
         const probData = await Problem.find({_id: {$in : bringProblems}})
         if (loginStatus === "Logout" || loginStatus === 'Выйти') {
             if (typeof userHandle !== 'string' || userHandle.length > 24 || userHandle.length < 3) {
