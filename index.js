@@ -11,9 +11,9 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const Problem = require("./models/problem")
 
-const ID = process.env.ID;
+const ID = process.env.ID || "thisIsNotARealId";
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/server';
-
+const corsURL = process.env.CORURL || "https://*"
 
 app.use(express.json());
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -24,8 +24,9 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log("oh no!! ", error);
     })
 
+
 app.use(cors({
-    origin: process.env.CORURL
+    origin: corsURL
 }));
 
 app.post('/', wrapAsync(async (req, res, next) => {
